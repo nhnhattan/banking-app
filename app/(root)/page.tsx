@@ -21,7 +21,7 @@ const Home = () => {
             totalBanks={1}
             totalCurrentBalance={1250.35}
           />
-        </header>
+        </header> 
       </div>
       <RightSidebar
         user={loggedIn}
