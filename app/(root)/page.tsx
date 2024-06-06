@@ -1,35 +1,58 @@
-import HeaderBox from "@/components/HeaderBox";
-import RightSidebar from "@/components/RightSidebar";
-import TotalBalanceBox from "@/components/TotalBalanceBox";
-import React from "react";
+import HeaderBox from '@/components/HeaderBox'
+// import RecentTransactions from '@/components/RecentTransactions';
+import RightSidebar from '@/components/RightSidebar';
+import TotalBalanceBox from '@/components/TotalBalanceBox';
+// import { getAccount, getAccounts } from '@/lib/actions/bank.actions';
+import { getLoggedInUser } from '@/lib/actions/user.actions';
 
-const Home = () => {
-  const loggedIn = { firstName: "nhnhattan" };
+const Home = async ({ searchParams: { id, page } }: SearchParamProps) => {
+  const currentPage = Number(page as string) || 1;
+  const loggedIn = await getLoggedInUser();
+  console.log(loggedIn)
+  // const accounts = await getAccounts({ 
+  //   userId: loggedIn.$id 
+  // })
+
+  // if(!accounts) return;
+  
+  // const accountsData = accounts?.data;
+  // const appwriteItemId = (id as string) || accountsData[0]?.appwriteItemId;
+
+  // const account = await getAccount({ appwriteItemId })
+
   return (
     <section className="home">
       <div className="home-content">
         <header className="home-header">
-          <HeaderBox
+          <HeaderBox 
             type="greeting"
             title="Welcome"
-            user={loggedIn?.firstName || "Guest"}
+            user={loggedIn?.firstName || 'Guest'}
             subtext="Access and manage your account and transactions efficiently."
           />
 
-          <TotalBalanceBox
+          <TotalBalanceBox 
             accounts={[]}
-            totalBanks={1}
-            totalCurrentBalance={1250.35}
+            totalBanks={0}
+            totalCurrentBalance={100}
           />
-        </header> 
+        </header>
+{/* 
+        <RecentTransactions 
+          accounts={accountsData}
+          transactions={account?.transactions}
+          appwriteItemId={appwriteItemId}
+          page={currentPage}
+        /> */}
       </div>
-      <RightSidebar
-        user={loggedIn}
-        transactions={[{ currentBalance: 123.5 }, { currentBalance: 500.0 }]}
-        banks={[{}, {}]}
-      />
-    </section>
-  );
-};
 
-export default Home;
+      {/* <RightSidebar 
+        user={loggedIn}
+        transactions={[]}
+        banks={[]}
+      /> */}
+    </section>
+  )
+}
+
+export default Home
